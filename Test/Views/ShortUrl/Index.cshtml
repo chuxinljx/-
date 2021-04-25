@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+}
+
+<script type="text/javascript"src="~/Script/3.2.1/jquery.min.js" ></script>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div @*style="margin:auto"*@>
+        <table style="text-align:center;margin:auto">
+            <tr>
+                <td colspan="2"><h1>长链接转短链接</h1></td>
+
+            </tr>
+            <tr>
+                <td>原始链接：</td>
+                <td><input type="text" name="oldUrl" /></td>
+            </tr>
+            <tr>
+                <td>短链接：</td>
+                <td><input type="text" name="newUrl" /></td>
+            </tr>
+            <tr><td colspan="2"><input type="button" name="submitBtn" value="提交" /></td></tr>
+        </table>
+        <table style="text-align:center;margin:auto">
+            <tr>
+                <td colspan="2"><h1>短链接转长连接</h1></td>
+
+            </tr>
+            <tr>
+                <td>短链接：</td>
+                <td><input type="text" name="newUrl1" /></td>
+            </tr>
+            <tr>
+                <td>原始链接：</td>
+                <td><input type="text" name="oldUrl1" /></td>
+            </tr>
+            <tr><td colspan="2"><input type="button" name="submitBtn1" value="提交" /></td></tr>
+        </table>
+    </div>
+</body>
+</html>
+<script type="text/javascript" >
+    var el = {
+        oldUrl:$("input[name='oldUrl']"),
+        newUrl:$("input[name='newUrl']"),
+        submitBtn: $("input[name='submitBtn']"),
+        oldUrl1:$("input[name='oldUrl1']"),
+        newUrl1:$("input[name='newUrl1']"),
+        submitBtn1:$("input[name='submitBtn1']")
+    };
+    $(function () {
+        el.submitBtn.click(function () {
+            debugger;
+            $.post('@Url.Action("GetShortJson")', { oldUrl:el.oldUrl.val() }, function (ar) {
+                if (ar.ErrorCode == 0) {
+                    el.newUrl.val(ar.Result);
+                } else {
+                    alert(ar.ErrorDesc);
+                }
+            });
+        });
+         el.submitBtn1.click(function () {
+             debugger;
+             $.post('@Url.Action("GetLongJson")', { newUrl: el.newUrl1.val() }, function (ar) {
+                if (ar.ErrorCode == 0) {
+                    el.oldUrl1.val(ar.Result);
+                } else {
+                    alert(ar.ErrorDesc);
+                }
+            });
+        });
+    });
+   
+</script>
